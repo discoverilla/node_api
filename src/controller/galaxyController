@@ -1,4 +1,14 @@
 const url = require('url')
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, '../uploads')
+    },
+    filename: function (req, file, cb) {
+      cb(null, file.originalname)
+    }
+})
+
+var upload = multer({ storage: storage })
 
 var db = require('../database/database');
 const message = require('../constants/message')
@@ -36,3 +46,25 @@ exports.getOne = async (req, res) => {
         }
     });
 }
+
+exports.uploadOne = async (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+      return new Promise((resolve, reject) => {
+          try {
+            upload.single('profile-file'), function (req, res, next) {
+                // req.files is array of `profile-files` files
+                // req.body will contain the text fields, if there were any
+                var response = '<a href="/">Home</a><br>'
+                response += "Files uploaded successfully.<br>"
+                for(var i=0;i<req.files.length;i++){
+                    response += `<img src="${req.files[i].path}" /><br>`
+                }
+                
+                res.json({path: response})
+            }
+          } catch (error) {
+              res.json({code: 999, error, message: `Unable to fetch data on ${req.route.path}` })
+          }
+      });
+  }

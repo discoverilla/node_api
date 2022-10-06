@@ -12,7 +12,6 @@
 var express = require('express')
 var path = require('path')
 var cors = require('cors')
-var multer = require('multer')
 
 var bodyParser = require('body-parser')
 const dotenv = require('dotenv')
@@ -20,19 +19,9 @@ var apiRouter = require('./routes/index')
 dotenv.config()
 const app = express()
 
-const storage = multer.diskStorage({
-	destination: function (req, file, cb) {
-		cb(null, '../public/uploads')
-	},
-	filename: function (req, file, cb) {
-		cb(null, file.originalname)
-	}
-})
-
 app.use(express.json())
 app.use('/public', express.static(path.join(__dirname, '../public/upload')))
 app.use('/uploads', express.static('uploads'))
-
 
 app.use(express.static(path.join(__dirname, 'assets')))
 // app.set('views', path.join(__dirname, 'views'))

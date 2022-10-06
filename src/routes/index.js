@@ -16,6 +16,7 @@ const router = express.Router()
 const galaxyController = require('../controller/galaxyController');
 
 router.get('/galaxy/getOne', galaxyController.getOne)
+router.post('/galaxy/uploadGalaxy', galaxyController.uploadOne)
 
 /**
  * Authentication page API router
