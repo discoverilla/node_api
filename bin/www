@@ -20,8 +20,8 @@ var fs = require(`fs`);
 
 
 const options = {
-  key: fs.readFileSync('/home/node_api/cert/2.key'),
-  cert: fs.readFileSync('/home/node_api/cert/api_discoverilla_com.crt')
+//   key: fs.readFileSync('/home/node_api/cert/2.key'),
+//   cert: fs.readFileSync('/home/node_api/cert/api_discoverilla_com.crt')
 }
 /**
  * Create HTTP server.
@@ -38,7 +38,7 @@ const options = {
 // })
 // server.on('error', onError);
 // server.on('listening', onListening);
- https.createServer(options, app).listen(443);
+ https.createServer(options, app.app).listen(443);
 // https.createServer(options, function(req, res) {
 
 //    res.writeHead(200);

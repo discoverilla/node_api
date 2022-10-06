@@ -43,7 +43,7 @@ exports.uploadOne = async (req, res) => {
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
       return new Promise((resolve, reject) => {
           try {
-            upload.single('profile-file'), function (req, res, next) {
+            upload.upload.single('profile-file'), function (req, res, next) {
                 // req.files is array of `profile-files` files
                 // req.body will contain the text fields, if there were any
                 var response = '<a href="/">Home</a><br>'
