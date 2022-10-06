@@ -6,35 +6,44 @@
 // import Moralis from 'moralis';
 // import { EvmChain } from '@moralisweb3/evm-utils';
 
-var axios = require('axios');
 var app = require('../src/app');
 var debug = require('debug')('backend:server');
-var http = require('http');
-var db = require('../src/database/database');
-
+var https = require('https');
+var fs = require(`fs`);
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3001');
-app.set('port', port);
+// var port = normalizePort(process.env.PORT || '3001');
+// app.set('port', port);
 
+
+const options = {
+  key: fs.readFileSync('/home/node_api/cert/2.key'),
+  cert: fs.readFileSync('/home/node_api/cert/api_discoverilla_com.crt')
+}
 /**
  * Create HTTP server.
  */
 
-var server = http.createServer(app);
+// var server = https.createServer(app);
 
 /**
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port, function () {
-    console.log("Listening on ", port)
-})
-server.on('error', onError);
-server.on('listening', onListening);
+// server.listen(port, function () {
+//     console.log("Listening on ", port)
+// })
+// server.on('error', onError);
+// server.on('listening', onListening);
+ https.createServer(options, app).listen(443);
+// https.createServer(options, function(req, res) {
+
+//    res.writeHead(200);
+//    res.end("Hello world\n");
+// }).listen(443);
 
 /**
  * Normalize a port into a number, string, or false.
@@ -95,80 +104,4 @@ function onListening() {
         : 'port ' + addr.port;
     debug('Listening on ' + bind);
 
-    // getApiData();
-
-    // setInterval(function () {
-    //     getApiData();
-    // }, 12000);
-
 }
-
-// async function getApiData() {
-//     // var temp_arr = [];
-//     var cur_cursor = null;
-//     var blockNumber = await web3.eth.getBlockNumber();
-//     console.log("===============", blockNumber);
-//     var block = (blockNumber - 120).toString();
-//     var repeats = 0;
-
-//     const options = {
-//         method: 'GET',
-//         url: 'https://deep-index.moralis.io/api/v2/nft/transfers',
-//         params: { chain: 'eth', format: 'decimal', limit: "100", from_block: block, to_block: block, cursor: cur_cursor },
-//         // params: { chain: 'eth', format: 'decimal', limit: "100", from_date: time2, to_date: time3, cursor: cur_cursor },
-//         headers: { accept: 'application/json', 'X-API-Key': process.env.X_API_KEY }
-//     };
-
-//     var tx_result = [];
-//     var temp_cursor = null;
-//     var db_data = [];
-
-//     try {
-//         const response = await axios.request(options);
-//         tx_result.push(...response.data?.result);
-//         repeats = Math.floor(response.data?.total / 100);
-//         temp_cursor = response.data?.cursor;
-
-//         if (repeats > 0) {
-//             for (let i = 0; i < repeats; i++) {
-//                 options.params.cursor = temp_cursor;
-//                 const response = await axios.request(options);
-//                 tx_result.push(...response.data?.result);
-//                 temp_cursor = response.data?.cursor;
-//             }
-//         }
-
-//         tx_result.map((item) => {
-//             if (item.value != '0' && item.from_address != '0x0000000000000000000000000000000000000000' && item.to_address != '0x0000000000000000000000000000000000000000') {
-//                 console.log(item);
-//                 db_data.push(new Array(item.token_address, item.block_timestamp, (item.value / 1e18).toFixed(9), item.amount));
-//                 // insertDB(item);
-//             }
-//         })
-//         if (db_data.length > 0) {
-//             insertDB(db_data);
-//         }
-//     } catch (error) {
-//         console.error(error);
-//     }
-// }
-
-// function insertDB(items) {
-//     return new Promise((resolve, reject) => {
-//         let query = 'insert into tx_history (token_address, block_timestamp, value, amount) values ?';
-
-//         db.query(query, [items], (error, rows, fields) => {
-//             if (error) {
-//                 console.log(error);
-//                 // reject({ message: message.INTERNAL_SERVER_ERROR })
-//             } else {
-//                 if (rows.length > 0) {
-//                     resolve(rows[0])
-//                 } else {
-//                     console.log("+++++++")
-//                     // reject({ message: message.ACCOUNT_NOT_EXIST })
-//                 }
-//             }
-//         })
-//     })
-// }
