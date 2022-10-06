@@ -8,6 +8,7 @@
 
 var app = require('../src/app');
 var debug = require('debug')('backend:server');
+// var http = require('http');
 var https = require('https');
 var fs = require(`fs`);
 
@@ -20,14 +21,14 @@ var fs = require(`fs`);
 
 
 const options = {
-//   key: fs.readFileSync('/home/node_api/cert/2.key'),
-//   cert: fs.readFileSync('/home/node_api/cert/api_discoverilla_com.crt')
+  key: fs.readFileSync('/home/node_api/cert/2.key'),
+  cert: fs.readFileSync('/home/node_api/cert/api_discoverilla_com.crt')
 }
 /**
  * Create HTTP server.
  */
 
-// var server = https.createServer(app);
+// var server = http.createServer(app);
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -39,11 +40,6 @@ const options = {
 // server.on('error', onError);
 // server.on('listening', onListening);
  https.createServer(options, app.app).listen(443);
-// https.createServer(options, function(req, res) {
-
-//    res.writeHead(200);
-//    res.end("Hello world\n");
-// }).listen(443);
 
 /**
  * Normalize a port into a number, string, or false.
