@@ -23,7 +23,7 @@ exports.getALL = async (req, res) => {
                         reject({ message: message.INTERNAL_SERVER_ERROR })
                     } else {
                         if (rows.length > 0) {
-                            res.json({code: 200, message: message.ACTION_SUCCESS, clusters: rows[0]})   
+                            res.json({code: 200, message: message.ACTION_SUCCESS, clusters: rows})   
                         } else 
                             res.json({code: 999, message: message.DATA_NOT_EXIST})   
                     }
