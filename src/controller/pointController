@@ -16,6 +16,7 @@ exports.getALL = async (req, res) => {
                     req.connection.destroy();
             });
             req.on('end', function () {
+                let result;
                 let points = 'SELECT * FROM point';
 
                 db.query(points, [], (error, rows, fields) => {
@@ -23,7 +24,8 @@ exports.getALL = async (req, res) => {
                         reject({ message: message.INTERNAL_SERVER_ERROR })
                     } else {
                         if (rows.length > 0) {
-                            res.json({code: 200, message: message.ACTION_SUCCESS, points: rows[0]})   
+                            result.points = rows[0]
+                            // res.json({code: 200, message: message.ACTION_SUCCESS, points: rows[0]})   
                         } else 
                             res.json({code: 999, message: message.DATA_NOT_EXIST})   
                     }
@@ -36,12 +38,15 @@ exports.getALL = async (req, res) => {
                         reject({ message: message.INTERNAL_SERVER_ERROR })
                     } else {
                         if (rows.length > 0) {
-                            res.json({code: 200, message: message.ACTION_SUCCESS, cluster: rows[0]})   
+                            result.points = rows[0]
+                            // res.json({code: 200, message: message.ACTION_SUCCESS, cluster: rows[0]})   
                         } else 
                             res.json({code: 999, message: message.DATA_NOT_EXIST})   
                     }
                 })
             });
+
+            res.json({code: 200, message: message.ACTION_SUCCESS, result: result})
         } catch (error) {
             res.json({code: 999, error, message: `Unable to fetch data on ${req.route.path}` })
         }
