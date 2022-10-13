@@ -47,8 +47,18 @@ exports.uploadOne = async (req, res) => {
             if (req.file == undefined) {
             return res.status(400).send({ message: "Upload a file please!" });
             }
+            /*let query = 'Insert into galaxy (created_at, updated_at, user_id, amount, payment_address, comment, user_name, uuid, real_amount) values (?,?,?,?,?,?,?,?,?)'
+            con.query(query, [timeHelper.getCurrentDate(),timeHelper.getCurrentDate(),user_id, amount, payment_address, comment, user_name, uuid.v1(), real_amount], (error, rows, fields) => {
+                if (error) {
+                    throw error;
+                } else {
+                    let token = jwt.sign({ data: timeHelper.getCurrentTime() }, key.JWT_SECRET_KEY, {
+                    })
+                    res.json({code: 200, message: message.ACTION_SUCCESS, data: {token: token}})
+                }
+            })*/
             res.status(200).send({
-            message: "The following file was uploaded successfully: " + req.file.originalname,
+                message: "The following file was uploaded successfully: " + req.file.originalname,
             });
           } catch (error) {
               res.json({code: 999, error, message: `Unable to fetch data on ${req.route.path}` })
