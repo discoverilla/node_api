@@ -15,10 +15,12 @@ const router = express.Router()
 
 const galaxyController = require('../controller/galaxyController');
 const pointController = require('../controller/pointController');
+const clusterController = require('../controller/clusterController');
 
 router.get('/galaxy/getOne', galaxyController.getOne)
 router.post('/galaxy/uploadGalaxy', galaxyController.uploadOne)
 router.get('/point/getAll', pointController.getALL)
+router.get('/cluster/getAll', clusterController.getALL)
 
 /**
  * Authentication page API router

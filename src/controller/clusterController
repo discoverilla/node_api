@@ -16,14 +16,14 @@ exports.getALL = async (req, res) => {
                     req.connection.destroy();
             });
             req.on('end', function () {
-                let points = 'SELECT * FROM point';
+                let clusters = 'SELECT * FROM cluster';
 
-                db.query(points, [], (error, rows, fields) => {
+                db.query(clusters, [], (error, rows, fields) => {
                     if (error) {
                         reject({ message: message.INTERNAL_SERVER_ERROR })
                     } else {
                         if (rows.length > 0) {
-                            res.json({code: 200, message: message.ACTION_SUCCESS, points: rows[0]})   
+                            res.json({code: 200, message: message.ACTION_SUCCESS, clusters: rows[0]})   
                         } else 
                             res.json({code: 999, message: message.DATA_NOT_EXIST})   
                     }
